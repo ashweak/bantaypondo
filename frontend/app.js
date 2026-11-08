@@ -49,7 +49,7 @@ async function load() {
 }
 
 /* ---------- sections ---------- */
-function scoreClass(s) { return s >= 3 ? "high" : s >= 1 ? "mid" : ""; }
+function scoreClass(s) { return s >= 3 ? "high" : s === 2 ? "mid" : s === 1 ? "" : "none"; }
 function flagTags(p) { return [...new Set(p.flags.map((f) => f[0]))].map((r) => `<span class="tag">${esc(RULES[r]?.label || r)}</span>`).join(""); }
 function srcUrl(p) { return S.urls[p.u]; }            // exact file the record came from
 function srcPage(p) { return S.sources[p.src]?.url || srcUrl(p); } // human-readable page
@@ -208,7 +208,7 @@ function initMap() {
   const pts = [...S.projects].sort((a, b) => a.score - b.score); // risky dots on top
   for (const p of pts) {
     if (p.lat == null || p.lng == null) continue;
-    const color = p.score >= 3 ? "#CE1126" : p.score >= 1 ? "#F2B705" : "#0038A8";
+    const color = p.score >= 3 ? "#CE1126" : p.score === 2 ? "#F2B705" : p.score === 1 ? "#0038A8" : "#A3ADBC";
     L.circleMarker([p.lat, p.lng], { radius: p.score >= 3 ? 5 : 3.5, color, fillColor: color, fillOpacity: .8, weight: 1 })
       .bindPopup(`<strong>${esc(p.name)}</strong><br>${esc(town(p.muni))}, ${esc(title(p.prov))}<br>${peso(p.amount)} · risk ${p.score}<br><button type="button" data-open="${p.id}">Open project</button>`)
       .addTo(map);

@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=4">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%230038A8'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23F2B705'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -95,7 +95,12 @@
 
   <section class="explore wrap" id="explore">
     <h2 class="center">Projects</h2>
-    <p class="center muted sub">Sorted by risk score: the sum of all flags on a project (high = 3, medium = 2, low = 1).</p>
+    <p class="center muted sub">Highest risk first. Each flag adds points to a project's risk score:</p>
+    <ul class="legend" aria-label="Risk score points">
+      <li><span class="score high">3</span> serious, like cost above budget</li>
+      <li><span class="score mid">2</span> medium, like one contractor dominating</li>
+      <li><span class="score">1</span> minor, like a late finish or split contracts</li>
+    </ul>
     <div class="filters">
       <label>Search<input id="fQ" type="search" placeholder="Town, contractor, contract ID"></label>
       <label>Province<select id="fProv"><option value="">All provinces</option></select></label>
@@ -115,7 +120,7 @@
   <section class="mapsec" id="map">
     <div class="wrap">
       <h2 class="center">Project map</h2>
-      <p class="center muted sub">Red has a risk score of 3 or more, yellow has 1–2, blue has no flags. Click a dot to open the project.</p>
+      <p class="center muted sub">Dot colors match the risk score: red 3 or more, yellow 2, blue 1, grey not flagged. Click a dot to open the project.</p>
       <div id="leaflet" role="region" aria-label="Map of projects"></div>
     </div>
   </section>
@@ -166,11 +171,11 @@
 </footer>
 
 <dialog id="detail" aria-labelledby="dTitle">
-  <form method="dialog"><button class="x" aria-label="Close">×</button></form>
+  <form method="dialog" class="dhead"><button class="x" aria-label="Close">×</button></form>
   <div id="dBody"></div>
 </dialog>
 
 <script src="vendor/leaflet/leaflet.js"></script>
-<script src="app.js"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>

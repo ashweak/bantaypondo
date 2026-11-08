@@ -193,7 +193,9 @@ td:nth-child(4) { min-width: 180px; font-size: 14px; }
 /* Detail dialog */
 dialog { border: 0; border-radius: var(--radius-lg); padding: 28px; width: min(680px, 100% - 24px); box-shadow: 0 20px 60px rgba(0,0,0,.25); color: var(--ink); }
 dialog::backdrop { background: rgba(29, 39, 56, .5); }
-dialog .x { position: absolute; top: 10px; right: 14px; border: 0; background: none; font-size: 28px; cursor: pointer; color: var(--muted); }
+.dhead { position: sticky; top: -28px; z-index: 2; display: flex; justify-content: flex-end; margin: -28px -28px 0; padding: 8px 10px 0; background: #fff; }
+dialog .x { width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--bg); font-size: 26px; line-height: 1; cursor: pointer; color: var(--ink); }
+dialog .x:hover { background: var(--line); }
 dialog h2 { font-size: 20px; margin: 4px 30px 14px 0; }
 dialog dl { display: grid; grid-template-columns: 150px 1fr; gap: 6px 14px; font-size: 15px; margin: 0 0 18px; }
 dialog dt { color: var(--muted); }
@@ -211,3 +213,7 @@ dialog dd { margin: 0; }
 }
 
 .verify-tip { font-size: 14px; color: var(--muted); margin: 12px 0 0; }
+
+.legend { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 24px; padding: 0; margin: -18px 0 28px; font-size: 15px; color: var(--muted); }
+.legend li { display: flex; align-items: center; gap: 8px; }
+.score.none { background: var(--line); color: var(--muted); }
