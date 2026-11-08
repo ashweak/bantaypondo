@@ -1,0 +1,17 @@
+{
+  "project_code": "ContractID",
+  "name": "ProjectDescription",
+  "category": "TypeofWork",
+  "region": "Region",
+  "province": "Province",
+  "municipality": "Municipality",
+  "implementing_office": "ImplementingOffice",
+  "contractor": "Contractor",
+  "abc": "ABC",
+  "contract_amount": "ContractCost",
+  "start_date": "StartDate",
+  "target_completion": "CompletionDateOriginal",
+  "actual_completion": "CompletionDateActual",
+  "lat": "Latitude",
+  "lng": "Longitude"
+}

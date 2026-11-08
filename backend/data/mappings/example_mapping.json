@@ -1,0 +1,21 @@
+{
+  "_comment": "Map OUR field (left) to the column name in the downloaded CSV (right). Edit to match the real file headers. Delete this _comment line is optional.",
+  "project_code": "Contract ID",
+  "name": "Project Description",
+  "category": "Category",
+  "region": "Region",
+  "province": "Province",
+  "municipality": "Municipality",
+  "implementing_office": "Implementing Office",
+  "contractor": "Contractor",
+  "abc": "ABC",
+  "contract_amount": "Contract Cost",
+  "status": "Status",
+  "progress": "Physical Accomplishment",
+  "start_date": "Start Date",
+  "target_completion": "Target Completion",
+  "actual_completion": "Completion Date",
+  "lat": "Latitude",
+  "lng": "Longitude",
+  "source_url": "Project Link"
+}
