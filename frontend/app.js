@@ -51,7 +51,8 @@ async function load() {
 /* ---------- sections ---------- */
 function scoreClass(s) { return s >= 3 ? "high" : s >= 1 ? "mid" : ""; }
 function flagTags(p) { return [...new Set(p.flags.map((f) => f[0]))].map((r) => `<span class="tag">${esc(RULES[r]?.label || r)}</span>`).join(""); }
-function srcUrl(p) { return S.urls[p.u]; }
+function srcUrl(p) { return S.urls[p.u]; }            // exact file the record came from
+function srcPage(p) { return S.sources[p.src]?.url || srcUrl(p); } // human-readable page
 
 function renderSample() {
   const p = S.projects[0];
@@ -177,12 +178,22 @@ function openDetail(id) {
     </dl>
     <h3>Flags</h3>${flags}
     <div class="links">
-      <a class="btn" href="${esc(srcUrl(p))}" target="_blank" rel="noopener">Open source data</a>
-      <a class="btn ghost" style="margin:0" href="${PORTAL}" target="_blank" rel="noopener">Verify ${esc(p.code)} on DPWH portal</a>
-    </div>`;
+      <a class="btn" href="${PORTAL}" target="_blank" rel="noopener" data-copy="${esc(p.code)}">Verify on DPWH portal</a>
+      <a class="btn ghost" style="margin:0" href="${esc(srcPage(p))}" target="_blank" rel="noopener">View dataset page</a>
+    </div>
+    <p class="verify-tip" id="vTip"><span>On the DPWH portal, search for contract ID ${esc(p.code)}. Clicking the button copies it for you.</span>
+      <br><a href="${esc(srcUrl(p))}" target="_blank" rel="noopener">Download raw CSV</a> (the exact file this record came from)</p>`;
   $("#detail").showModal();
 }
 document.addEventListener("click", (e) => {
+  const cp = e.target.closest("[data-copy]");
+  if (cp) {
+    navigator.clipboard?.writeText(cp.dataset.copy).then(() => {
+      const tip = $("#vTip");
+      if (tip) tip.querySelector("span").textContent = `Copied ${cp.dataset.copy}. Paste it into the search box on the DPWH portal.`;
+    }).catch(() => {});
+    return; // let the link open normally
+  }
   const o = e.target.closest("[data-open]");
   if (o) { e.preventDefault(); openDetail(o.dataset.open); return; }
   const c = e.target.closest("[data-contractor]");
@@ -273,7 +284,7 @@ function localAsk(q) {
     const top = [...agg.entries()].sort((a, b) => b[1].v - a[1].v).slice(0, 8);
     steps.push(`Analyst: ${top.length} contractors`, "Explainer");
     if (!top.length) return { steps, cites: [], html: "<p>Walang nakitang datos na tugma. No matching records, so no claims are made.</p>" };
-    const n = cite(S.urls[top[0][1].u], "DPWH flood control project list (BetterGov.ph export via Hugging Face)");
+    const n = cite(srcPage({ u: top[0][1].u, src: S.projects[0].src }), "DPWH flood control project list (BetterGov.ph export via Hugging Face)");
     return { steps, cites, html: `<p>Ito ang mga contractor na may pinakamalaking kabuuang halaga ng flood control contracts${where} [${n}]:</p>
       <ul>${top.map(([c, a]) => `<li><strong>${esc(c)}</strong>: ${a.n} projects, ${peso(a.v)}${a.f ? `, ${a.f} flagged for review` : ""}</li>`).join("")}</ul>
       <p>Hindi mali ang malaking kabuuan mismo. Tingnan ang "One contractor dominates a province" check para sa konsentrasyon.</p><p class="disc">${esc(DISCLAIMER)}</p>` };
@@ -284,7 +295,7 @@ function localAsk(q) {
   list = list.slice(0, 8);
   steps.push(`Analyst: ${total} flagged projects`, "Explainer");
   if (!list.length) return { steps, cites: [], html: `<p>Walang nakitang flagged project na tugma sa tanong${where}. No matching records, so no claims are made.</p>` };
-  const n = cite(S.urls[list[0].u], "DPWH flood control project list (BetterGov.ph export via Hugging Face)");
+  const n = cite(srcPage(list[0]), "DPWH flood control project list (BetterGov.ph export via Hugging Face)");
   const portal = cite(PORTAL, "DPWH Transparency Portal (official, for verifying contract IDs)");
   const who = contractor ? ` ng ${esc(contractor)}` : "";
   const what = rule ? ` para sa check na "${esc(RULES[rule].label)}"` : "";

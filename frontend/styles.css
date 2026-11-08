@@ -209,3 +209,5 @@ dialog dd { margin: 0; }
   .hero-search button { min-height: 44px; }
   .hero { padding: 56px 0 120px; }
 }
+
+.verify-tip { font-size: 14px; color: var(--muted); margin: 12px 0 0; }
