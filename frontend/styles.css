@@ -217,7 +217,23 @@ dialog dd { margin: 0; }
 .legend { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 24px; padding: 0; margin: -18px 0 28px; font-size: 15px; color: var(--muted); }
 .legend li { display: flex; align-items: center; gap: 8px; }
 .score.none { background: var(--line); color: var(--muted); }
-.agents-btn { margin: -14px 0 22px; }
-.agents-panel { margin-bottom: 26px; }
-.agents-panel > p { margin: 0 0 16px; font-size: 15px; }
-.agents-panel .team article { background: var(--bg); box-shadow: none; }
+
+/* Ask title + "!" info popover with the agents */
+.ask-title { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.info { position: relative; }
+.info-btn { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--blue); background: #fff; color: var(--blue); font: 700 15px/1 var(--display); cursor: pointer; display: grid; place-items: center; padding: 0; }
+.info-btn:hover, .info.open .info-btn { background: var(--blue); color: #fff; }
+.info-pop { position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%); z-index: 20; width: min(640px, 92vw); background: #fff; border-radius: var(--radius-lg); box-shadow: 0 16px 48px rgba(29, 39, 56, .22); padding: 22px; text-align: left; visibility: hidden; opacity: 0; transition: opacity .15s, visibility .15s; }
+.info-pop::before { content: ""; position: absolute; top: -14px; left: 0; right: 0; height: 14px; } /* hover bridge */
+.info:hover .info-pop, .info:focus-within .info-pop, .info.open .info-pop { visibility: visible; opacity: 1; }
+.info-pop h3 { font-size: 18px; }
+.info-pop > p { font-size: 14px; margin: 6px 0 14px; }
+.info-pop .team { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.info-pop .team article { background: var(--bg); box-shadow: none; padding: 16px; display: grid; grid-template-columns: 44px 1fr; grid-template-rows: auto auto 1fr; column-gap: 12px; text-align: left; align-items: start; align-content: start; }
+.info-pop .avatar { width: 44px; height: 44px; margin: 0; grid-row: span 3; }
+.info-pop .avatar svg { width: 20px; height: 20px; }
+.info-pop .team h3 { font-size: 15px; }
+.info-pop .team .role { font-size: 13px; margin: 0 0 4px; }
+.info-pop .team p { font-size: 14px; }
+@media (max-width: 640px) { .info-pop { position: fixed; top: 80px; left: 4vw; transform: none; } .info-pop .team { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .info-pop { transition: none; } }
