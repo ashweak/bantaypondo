@@ -217,3 +217,7 @@ dialog dd { margin: 0; }
 .legend { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 24px; padding: 0; margin: -18px 0 28px; font-size: 15px; color: var(--muted); }
 .legend li { display: flex; align-items: center; gap: 8px; }
 .score.none { background: var(--line); color: var(--muted); }
+.agents-btn { margin: -14px 0 22px; }
+.agents-panel { margin-bottom: 26px; }
+.agents-panel > p { margin: 0 0 16px; font-size: 15px; }
+.agents-panel .team article { background: var(--bg); box-shadow: none; }

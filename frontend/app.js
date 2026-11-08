@@ -304,4 +304,11 @@ function localAsk(q) {
     <p>I-check ang contract ID sa DPWH portal bago gumawa ng konklusyon [${portal}].</p><p class="disc">${esc(DISCLAIMER)}</p>` };
 }
 
+$("#agentsBtn").addEventListener("click", (e) => {
+  const open = e.currentTarget.getAttribute("aria-expanded") === "true";
+  e.currentTarget.setAttribute("aria-expanded", String(!open));
+  e.currentTarget.textContent = open ? "Meet the agents" : "Hide the agents";
+  $("#agentsPanel").hidden = open;
+});
+
 load().catch(() => { $("#dataNote").textContent = "Project data could not load. Refresh the page to try again."; });
