@@ -5,6 +5,7 @@ The same structure is served live at /api/snapshot and exported to static files
 Every project keeps its reference link (as an index into `urls` to save space).
 """
 import json
+import os
 import sys
 from collections import defaultdict
 from datetime import datetime, timezone
@@ -70,6 +71,9 @@ def build_snapshot(db: Session) -> dict:
 
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        # date the underlying data was fetched/exported (set by the weekly job)
+        "data_as_of": os.environ.get("DATA_AS_OF") or datetime.now(timezone.utc).date().isoformat(),
+        "by_source": {k: sum(1 for r in rows if r["src"] == k) for k in {r["src"] for r in rows}},
         "stats": {
             "projects": len(rows),
             "value": sum(r["amount"] or 0 for r in rows),

@@ -39,8 +39,11 @@ async function load() {
     S = await r.json();
   }
   S.projects.forEach((p) => byId.set(p.id, p));
-  $("#dataNote").textContent = `${num(S.stats.projects)} DPWH flood control projects loaded · data as of ${S.generated_at.slice(0, 10)}`;
-  $("#genAt").textContent = `Data snapshot: ${S.generated_at.slice(0, 10)}`;
+  const asOf = S.data_as_of || S.generated_at.slice(0, 10);
+  const official = (S.by_source || {}).dpwh_transparency || 0;
+  $("#dataNote").textContent = `${num(S.stats.projects)} DPWH flood control projects · data as of ${asOf}` +
+    (official ? ` · ${num(official)} from the official DPWH API` : "") + " · updated weekly";
+  $("#genAt").textContent = `Data as of ${asOf}`;
   $("#askMode").textContent = LIVE
     ? "Live mode: AI agents answer using only the stored records."
     : "Demo mode: agents run in your browser using the stored records. Run the backend for Gemini-written answers.";
@@ -53,6 +56,8 @@ function scoreClass(s) { return s >= 3 ? "high" : s === 2 ? "mid" : s === 1 ? ""
 function flagTags(p) { return [...new Set(p.flags.map((f) => f[0]))].map((r) => `<span class="tag">${esc(RULES[r]?.label || r)}</span>`).join(""); }
 function srcUrl(p) { return S.urls[p.u]; }            // exact file the record came from
 function srcPage(p) { return S.sources[p.src]?.url || srcUrl(p); } // human-readable page
+function srcName(p) { return S.sources[p.src]?.name || "Source"; }
+const isOfficial = (p) => p.src === "dpwh_transparency";
 
 function renderSample() {
   const p = S.projects[0];
@@ -179,10 +184,10 @@ function openDetail(id) {
     <h3>Flags</h3>${flags}
     <div class="links">
       <a class="btn" href="${PORTAL}" target="_blank" rel="noopener" data-copy="${esc(p.code)}">Verify on DPWH portal</a>
-      <a class="btn ghost" style="margin:0" href="${esc(srcPage(p))}" target="_blank" rel="noopener">View dataset page</a>
+      <a class="btn ghost" style="margin:0" href="${esc(srcPage(p))}" target="_blank" rel="noopener">${isOfficial(p) ? "Open DPWH portal" : "View dataset page"}</a>
     </div>
     <p class="verify-tip" id="vTip"><span>On the DPWH portal, search for contract ID ${esc(p.code)}. Clicking the button copies it for you.</span>
-      <br><a href="${esc(srcUrl(p))}" target="_blank" rel="noopener">Download raw CSV</a> (the exact file this record came from)</p>`;
+      <br>Source: ${esc(srcName(p))}. <a href="${esc(srcUrl(p))}" target="_blank" rel="noopener">${isOfficial(p) ? "Official API record (JSON)" : "Download raw CSV"}</a> (the exact record or file this came from)</p>`;
   $("#detail").showModal();
 }
 document.addEventListener("click", (e) => {
@@ -284,7 +289,7 @@ function localAsk(q) {
     const top = [...agg.entries()].sort((a, b) => b[1].v - a[1].v).slice(0, 8);
     steps.push(`Analyst: ${top.length} contractors`, "Explainer");
     if (!top.length) return { steps, cites: [], html: "<p>Walang nakitang datos na tugma. No matching records, so no claims are made.</p>" };
-    const n = cite(srcPage({ u: top[0][1].u, src: S.projects[0].src }), "DPWH flood control project list (BetterGov.ph export via Hugging Face)");
+    const n = cite(S.sources[S.projects[0].src].url, S.sources[S.projects[0].src].name);
     return { steps, cites, html: `<p>Ito ang mga contractor na may pinakamalaking kabuuang halaga ng flood control contracts${where} [${n}]:</p>
       <ul>${top.map(([c, a]) => `<li><strong>${esc(c)}</strong>: ${a.n} projects, ${peso(a.v)}${a.f ? `, ${a.f} flagged for review` : ""}</li>`).join("")}</ul>
       <p>Hindi mali ang malaking kabuuan mismo. Tingnan ang "One contractor dominates a province" check para sa konsentrasyon.</p><p class="disc">${esc(DISCLAIMER)}</p>` };
@@ -295,7 +300,7 @@ function localAsk(q) {
   list = list.slice(0, 8);
   steps.push(`Analyst: ${total} flagged projects`, "Explainer");
   if (!list.length) return { steps, cites: [], html: `<p>Walang nakitang flagged project na tugma sa tanong${where}. No matching records, so no claims are made.</p>` };
-  const n = cite(srcPage(list[0]), "DPWH flood control project list (BetterGov.ph export via Hugging Face)");
+  const n = cite(srcPage(list[0]), srcName(list[0]));
   const portal = cite(PORTAL, "DPWH Transparency Portal (official, for verifying contract IDs)");
   const who = contractor ? ` ng ${esc(contractor)}` : "";
   const what = rule ? ` para sa check na "${esc(RULES[rule].label)}"` : "";

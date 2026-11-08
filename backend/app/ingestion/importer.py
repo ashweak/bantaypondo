@@ -28,6 +28,7 @@ PROJECT_FIELDS = [
     "project_code", "name", "category", "region", "province", "municipality",
     "implementing_office", "contractor", "abc", "contract_amount", "status", "progress",
     "start_date", "target_completion", "actual_completion", "lat", "lng", "source_url",
+    "source_key",  # optional per-row source (merged files); falls back to --source
 ]
 FINDING_FIELDS = ["agency", "year", "title", "text", "page", "source_url"]
 
@@ -81,7 +82,8 @@ def build_project(row: dict, source_key: str, file_url: str | None) -> Project:
         start_date=to_date(row["start_date"]), target_completion=to_date(row["target_completion"]),
         actual_completion=to_date(row["actual_completion"]),
         lat=to_float(row["lat"]), lng=to_float(row["lng"]),
-        source_key=source_key, source_url=url.strip(), raw=row,
+        source_key=row["source_key"] if row.get("source_key") in SOURCES else source_key,
+        source_url=url.strip(), raw=row,
     )
 
 
