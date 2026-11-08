@@ -44,6 +44,7 @@ async function load() {
   $("#dataNote").textContent = `${num(S.stats.projects)} DPWH flood control projects · data as of ${asOf}` +
     (official ? ` · ${num(official)} from the official DPWH API` : "") + " · updated weekly";
   $("#genAt").textContent = `Data as of ${asOf}`;
+  $("#sbData").textContent = `${num(S.stats.projects)} projects · data as of ${asOf}. Refreshed weekly.`;
   $("#askMode").textContent = LIVE
     ? "Live mode: AI agents answer using only the stored records."
     : "Demo mode: agents run in your browser using the stored records. Run the backend for Gemini-written answers.";
@@ -130,12 +131,12 @@ function renderRows() {
   const rows = filtered.slice(0, shown);
   $("#rows").innerHTML = rows.length ? rows.map((p) => `
     <tr data-open="${p.id}">
-      <td><span class="score ${scoreClass(p.score)}" title="Risk score">${p.score}</span></td>
-      <td><a class="pname" href="#" data-open="${p.id}">${esc(p.name)}</a><span class="code">${esc(p.code)}</span></td>
-      <td>${esc(town(p.muni))}<br><span class="code">${esc(title(p.prov))}</span></td>
-      <td>${esc(p.contractor)}</td>
-      <td class="num">${peso(p.amount)}</td>
-      <td>${flagTags(p) || '<span class="code">None</span>'}</td>
+      <td data-label="Risk"><span class="score ${scoreClass(p.score)}" title="Risk score">${p.score}</span></td>
+      <td data-label="Project"><a class="pname" href="#" data-open="${p.id}">${esc(p.name)}</a><span class="code">${esc(p.code)}</span></td>
+      <td data-label="Location">${esc(town(p.muni))}<br><span class="code">${esc(title(p.prov))}</span></td>
+      <td data-label="Contractor">${esc(p.contractor)}</td>
+      <td class="num" data-label="Contract cost">${peso(p.amount)}</td>
+      <td data-label="Flags">${flagTags(p) || '<span class="code">None</span>'}</td>
     </tr>`).join("") : `<tr><td colspan="6" class="empty">No projects match. Try another town, or untick "Flagged only".</td></tr>`;
   $("#more").hidden = filtered.length <= shown;
 }
@@ -317,3 +318,38 @@ document.addEventListener("click", (e) => { if (!info.contains(e.target)) setInf
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") setInfo(false); });
 
 load().catch(() => { $("#dataNote").textContent = "Project data could not load. Refresh the page to try again."; });
+
+
+/* ---------- Menu: sidebar on computers, slide-in drawer on phones ---------- */
+(() => {
+  const body = document.body, topbar = document.getElementById("topbar");
+  const openBtn = document.getElementById("menuOpen"), closeBtn = document.getElementById("menuClose");
+  const setMenu = (open) => {
+    body.classList.toggle("menu-open", open);
+    openBtn.setAttribute("aria-expanded", open);
+    if (open) closeBtn.focus();
+  };
+  openBtn.addEventListener("click", () => setMenu(true));
+  closeBtn.addEventListener("click", () => setMenu(false));
+  document.getElementById("scrim").addEventListener("click", () => setMenu(false));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
+  document.querySelectorAll("#sidebar a[href^='#']").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+
+  // Sections stop just below the top bar on phones (no top bar on computers).
+  const setBar = () => document.documentElement.style.setProperty("--nav-h", topbar.offsetHeight + "px");
+  addEventListener("resize", () => { setBar(); if (innerWidth >= 1024) setMenu(false); });
+  setBar();
+
+  // Highlight the section on screen.
+  const links = [...document.querySelectorAll(".snav a")];
+  const secs = links.map((a) => document.querySelector(a.getAttribute("href")));
+  const mark = () => {
+    const y = scrollY + topbar.offsetHeight + 40;
+    let cur = 0;
+    secs.forEach((sec, i) => { if (sec && sec.getBoundingClientRect().top + scrollY <= y) cur = i; });
+    if (innerHeight + scrollY >= document.body.scrollHeight - 4) cur = secs.length - 1;
+    links.forEach((a, i) => a.classList.toggle("active", i === cur));
+  };
+  addEventListener("scroll", mark, { passive: true });
+  mark();
+})();

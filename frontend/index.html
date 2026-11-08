@@ -9,26 +9,42 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-<link rel="stylesheet" href="styles.css?v=9">
+<link rel="stylesheet" href="styles.css?v=10">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 </head>
 <body>
 <a class="skip" href="#explore">Skip to projects</a>
 
-<header class="nav">
-  <div class="wrap nav-in">
-    <a class="brand" href="#top" aria-label="BantayPondo home">
-      <img src="logo.svg" width="30" height="30" alt="">
-      BantayPondo
-    </a>
-    <nav aria-label="Main">
-      <a href="#how">How it works</a>
-      <a href="#explore">Projects</a>
-      <a href="#map">Map</a>
-      <a href="#ask">Ask</a>
-      <a href="#sources">Sources</a>
-    </nav>
+<!-- Sidebar menu: always visible on computers, slides in on phones -->
+<aside class="sidebar" id="sidebar" aria-label="Main menu">
+  <div class="sb-head">
+    <a class="brand" href="#top" aria-label="BantayPondo home"><img src="logo.svg" width="30" height="30" alt="">BantayPondo</a>
+    <button class="icon-btn sb-close" id="menuClose" type="button" aria-label="Close menu"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
   </div>
+  <p class="sb-label">Explore</p>
+  <nav class="snav" aria-label="Main">
+    <a href="#top"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+    <a href="#how"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6h10M10 12h10M10 18h10M4 6l1.5 1.5L8 5M4 12l1.5 1.5L8 11M4 18l1.5 1.5L8 17"/></svg>How it works</a>
+    <a href="#checks"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h12l-2 4 2 4H5"/></svg>The checks</a>
+    <a href="#explore"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 9v11"/></svg>Projects</a>
+    <a href="#map"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg>Map</a>
+    <a href="#contractors"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg>Contractors</a>
+    <a href="#ask"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14h4"/></svg>Ask BantayPondo</a>
+    <a href="#sources"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>Sources</a>
+  </nav>
+  <p class="sb-label">Links</p>
+  <a class="sb-link" href="https://transparency.dpwh.gov.ph/" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>DPWH Transparency Portal</a>
+  <a class="sb-link" href="https://github.com/ashweak/bantaypondo" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4 1.3-4-2-6-2.5m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12 12 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>Source code</a>
+  <a class="sb-link" href="https://ashweak.github.io" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Made by Lance Agua</a>
+  <p class="sb-note" id="sbData">Loading data…</p>
+</aside>
+<div class="scrim" id="scrim"></div>
+
+<!-- Phone top bar -->
+<header class="topbar" id="topbar">
+  <button class="icon-btn" id="menuOpen" type="button" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <a class="brand" href="#top" aria-label="BantayPondo home"><img src="logo.svg" width="28" height="28" alt="">BantayPondo</a>
+  <a class="icon-btn" href="#explore" aria-label="Search projects"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></a>
 </header>
 
 <main id="top">
@@ -125,7 +141,7 @@
     </div>
   </section>
 
-  <section class="contractors wrap">
+  <section class="contractors wrap" id="contractors">
     <h2 class="center">Top contractors by contract value</h2>
     <p class="center muted sub">Large totals are not wrong by themselves. Use this with the concentration check.</p>
     <ol class="bars" id="bars"></ol>
@@ -209,6 +225,6 @@
 </dialog>
 
 <script src="vendor/leaflet/leaflet.js"></script>
-<script src="app.js?v=9"></script>
+<script src="app.js?v=10"></script>
 </body>
 </html>
