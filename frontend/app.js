@@ -40,7 +40,7 @@ async function load() {
   }
   S.projects.forEach((p) => byId.set(p.id, p));
   $("#dataNote").textContent = `${num(S.stats.projects)} DPWH flood control projects loaded · data as of ${S.generated_at.slice(0, 10)}`;
-  $("#genAt").textContent = `Snapshot generated ${S.generated_at.slice(0, 10)}.`;
+  $("#genAt").textContent = `Data snapshot: ${S.generated_at.slice(0, 10)}`;
   $("#askMode").textContent = LIVE
     ? "Live mode: AI agents answer using only the stored records."
     : "Demo mode: agents run in your browser using the stored records. Run the backend for Gemini-written answers.";

@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-<link rel="stylesheet" href="styles.css?v=6">
+<link rel="stylesheet" href="styles.css?v=7">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%230038A8'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23F2B705'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -168,9 +168,38 @@
 </main>
 
 <footer class="foot">
-  <div class="wrap">
-    <p><strong>Paalala:</strong> Flags are signals for review, not proof of wrongdoing. Always check the linked source before drawing conclusions.</p>
-    <p class="muted">Built by <a href="https://ashweak.github.io">Lance Agua</a>. Project data: DPWH flood control list via BetterGov.ph export, mirrored on Hugging Face (CC BY-SA 4.0). <span id="genAt"></span></p>
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <a class="brand" href="#top">
+        <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="#fff"/><circle cx="16" cy="16" r="6" fill="#F2B705"/><g stroke="#F2B705" stroke-width="2" stroke-linecap="round"><path d="M16 4v4M16 24v4M4 16h4M24 16h4M7.5 7.5l2.8 2.8M21.7 21.7l2.8 2.8M7.5 24.5l2.8-2.8M21.7 10.3l2.8-2.8"/></g></svg>
+        BantayPondo
+      </a>
+      <p>A citizen tool for reading DPWH flood control records. Every finding links back to its source.</p>
+    </div>
+    <nav class="foot-col" aria-label="Footer">
+      <h3>Explore</h3>
+      <a href="#how">How it works</a>
+      <a href="#checks">The checks</a>
+      <a href="#explore">Projects</a>
+      <a href="#map">Map</a>
+      <a href="#ask">Ask BantayPondo</a>
+    </nav>
+    <div class="foot-col">
+      <h3>Data</h3>
+      <a href="https://transparency.dpwh.gov.ph/" target="_blank" rel="noopener">DPWH Transparency Portal</a>
+      <a href="https://bettergov.ph/flood-control-projects" target="_blank" rel="noopener">BetterGov.ph export</a>
+      <a href="https://huggingface.co/datasets/chrisandrei/DPWH_Flood_Control_2018-2025_Projects" target="_blank" rel="noopener">Hugging Face dataset (CC BY-SA 4.0)</a>
+      <a href="#sources">All sources</a>
+    </div>
+    <div class="foot-col foot-note">
+      <h3>Paalala</h3>
+      <p>Flags are signals for review, not proof of wrongdoing. Always check the linked source before drawing conclusions.</p>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 <a href="https://ashweak.github.io">Lance Agua</a></span>
+    <span id="genAt"></span>
+    <a href="https://github.com/ashweak/bantaypondo" target="_blank" rel="noopener">Source code on GitHub</a>
   </div>
 </footer>
 
@@ -180,6 +209,6 @@
 </dialog>
 
 <script src="vendor/leaflet/leaflet.js"></script>
-<script src="app.js?v=6"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>
