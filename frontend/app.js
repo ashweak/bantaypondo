@@ -329,15 +329,24 @@ load().catch(() => { $("#dataNote").textContent = "Project data could not load. 
     openBtn.setAttribute("aria-expanded", open);
     if (open) closeBtn.focus();
   };
-  openBtn.addEventListener("click", () => setMenu(true));
-  closeBtn.addEventListener("click", () => setMenu(false));
+  // Computers: dock or hide the sidebar (remembered). Phones: slide-in drawer.
+  const isWide = () => innerWidth >= 1024;
+  const setHidden = (hidden) => {
+    body.classList.toggle("sb-hidden", hidden);
+    try { localStorage.setItem("bpSbHidden", hidden ? "1" : "0"); } catch {}
+    setBar();
+    setTimeout(() => dispatchEvent(new Event("resize")), 300); // map redraws to the new width
+  };
+  try { if (localStorage.getItem("bpSbHidden") === "1") body.classList.add("sb-hidden"); } catch {}
+  openBtn.addEventListener("click", () => (isWide() ? setHidden(false) : setMenu(true)));
+  closeBtn.addEventListener("click", () => (isWide() ? setHidden(true) : setMenu(false)));
   document.getElementById("scrim").addEventListener("click", () => setMenu(false));
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
   document.querySelectorAll("#sidebar a[href^='#']").forEach((a) => a.addEventListener("click", () => setMenu(false)));
 
   // Sections stop just below the top bar on phones (no top bar on computers).
   const setBar = () => document.documentElement.style.setProperty("--nav-h", topbar.offsetHeight + "px");
-  addEventListener("resize", () => { setBar(); if (innerWidth >= 1024) setMenu(false); });
+  addEventListener("resize", () => { setBar(); if (isWide()) setMenu(false); });
   setBar();
 
   // Highlight the section on screen.

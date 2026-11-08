@@ -52,9 +52,18 @@ section { margin-block: 88px; }
 .sb-note { margin: auto 6px 0; padding: 12px; border-radius: var(--radius-lg); background: var(--bg); font-size: 13px; color: var(--muted); }
 .icon-btn { width: 44px; height: 44px; display: grid; place-items: center; flex: none; border: 1px solid var(--line); border-radius: 10px;
             background: var(--surface); color: var(--ink); cursor: pointer; padding: 0; }
-.sb-close, .topbar { display: none; }
+.ic-x { display: none; }
+.topbar { position: sticky; top: 0; z-index: 1050; display: none; align-items: center; gap: 12px; height: 62px; padding: 0 14px;
+          background: rgba(255, 255, 255, .95); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+.topbar .brand { flex: 1; font-size: 17px; }
 .scrim { position: fixed; inset: 0; z-index: 1090; background: rgba(29, 39, 56, .45); opacity: 0; pointer-events: none; transition: opacity .25s; }
-main, .foot { margin-left: var(--sb); }
+main, .foot { margin-left: var(--sb); transition: margin-left .25s ease; }
+/* Computers: the sidebar can be hidden with its button and brought back with ☰ */
+@media (min-width: 1024px) {
+  body.sb-hidden .sidebar { transform: translateX(-102%); }
+  body.sb-hidden main, body.sb-hidden .foot { margin-left: 0; }
+  body.sb-hidden .topbar { display: flex; }
+}
 html { scroll-padding-top: calc(var(--nav-h, 0px) + 12px); }
 
 @media (max-width: 1023px) {
@@ -62,13 +71,11 @@ html { scroll-padding-top: calc(var(--nav-h, 0px) + 12px); }
   body.menu-open .sidebar { transform: none; }
   body.menu-open .scrim { opacity: 1; pointer-events: auto; }
   body.menu-open { overflow: hidden; }
-  .sb-close { display: grid; }
   main, .foot { margin-left: 0; }
-  .topbar { position: sticky; top: 0; z-index: 1050; display: flex; align-items: center; gap: 12px; height: 62px; padding: 0 14px;
-            background: rgba(255, 255, 255, .95); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
-  .topbar .brand { flex: 1; font-size: 17px; }
+  .topbar { display: flex; }
+  .ic-x { display: block; } .ic-hide { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .sidebar, .scrim { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .sidebar, .scrim, main, .foot { transition: none; } }
 
 /* Hero (template: centered title over a light band, cards overlap the band edge) */
 .hero { margin: 0; padding: 88px 0 140px; background: var(--surface); }

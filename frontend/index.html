@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-<link rel="stylesheet" href="styles.css?v=10">
+<link rel="stylesheet" href="styles.css?v=11">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 </head>
 <body>
@@ -19,7 +19,7 @@
 <aside class="sidebar" id="sidebar" aria-label="Main menu">
   <div class="sb-head">
     <a class="brand" href="#top" aria-label="BantayPondo home"><img src="logo.svg" width="30" height="30" alt="">BantayPondo</a>
-    <button class="icon-btn sb-close" id="menuClose" type="button" aria-label="Close menu"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <button class="icon-btn sb-close" id="menuClose" type="button" aria-label="Hide menu" title="Hide menu"><svg class="ic ic-hide" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M16 10l-2 2 2 2"/></svg><svg class="ic ic-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
   </div>
   <p class="sb-label">Explore</p>
   <nav class="snav" aria-label="Main">
@@ -41,7 +41,7 @@
 
 <!-- Phone top bar -->
 <header class="topbar" id="topbar">
-  <button class="icon-btn" id="menuOpen" type="button" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <button class="icon-btn" id="menuOpen" type="button" title="Show menu" aria-label="Show menu" aria-controls="sidebar" aria-expanded="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <a class="brand" href="#top" aria-label="BantayPondo home"><img src="logo.svg" width="28" height="28" alt="">BantayPondo</a>
   <a class="icon-btn" href="#explore" aria-label="Search projects"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></a>
 </header>
@@ -223,6 +223,6 @@
 </dialog>
 
 <script src="vendor/leaflet/leaflet.js"></script>
-<script src="app.js?v=10"></script>
+<script src="app.js?v=11"></script>
 </body>
 </html>
