@@ -35,6 +35,13 @@ SOURCES = {
         "url": "https://www.dbm.gov.ph/",
         "covers": "Approved budget line items per agency",
     },
+    "bettergov_export": {
+        "name": "BetterGov.ph flood control export",
+        "publisher": "BetterGov.ph (community-run portal) - NOT official; verify against DPWH portal",
+        "url": "https://bettergov.ph/flood-control-projects",
+        "covers": "Flood control projects exported with the site's Export Data button (same columns as the mirror)",
+        "official": False,
+    },
     "hf_flood_control_mirror": {
         "name": "DPWH Flood Control 2018-2025 (community mirror, CC BY-SA 4.0)",
         "publisher": "Hugging Face user chrisandrei - NOT an official source; verify against DPWH portal",
